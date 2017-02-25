@@ -1,0 +1,5 @@
+dist/
+result
+result-*
+.nix-project-cache/
+
