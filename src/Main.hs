@@ -54,8 +54,8 @@ doPrintVersions = do
 
 doBuild :: IO ()
 doBuild = do
-  outputsDir <- makeAbsolute ".nix-project-cache/outputs"
-  derivationsDir <- makeAbsolute ".nix-project-cache/derivations"
+  outputsDir <- makeAbsolute ".nix-project/cache/outputs"
+  derivationsDir <- makeAbsolute ".nix-project/cache/derivations"
   
   forM_ [ outputsDir, derivationsDir ] $ createDirectoryIfMissing True
   
@@ -72,7 +72,7 @@ doBuild = do
 doRun :: [String] -> IO ()
 doRun args = do
   doBuild
-  outputsDir <- makeAbsolute ".nix-project-cache/outputs"
+  outputsDir <- makeAbsolute ".nix-project/cache/outputs"
   let binDir = outputsDir </> "result/bin"
   binFiles <- map (binDir </>) <$> listDirectory binDir
   exeFiles <- filterM (\x -> executable <$> getPermissions x) binFiles
@@ -88,7 +88,7 @@ doRun args = do
 doCabal2nix :: IO ()
 doCabal2nix = do
   doBuild
-  -- outputsDir <- makeAbsolute ".nix-project-cache/outputs"
+  -- outputsDir <- makeAbsolute ".nix-project/cache/outputs"
   -- let binDir = outputsDir </> "result/bin"
   cabalFiles <- filter (".cabal" `isSuffixOf`) <$> listDirectory "."
   cabalFile <- case cabalFiles of
